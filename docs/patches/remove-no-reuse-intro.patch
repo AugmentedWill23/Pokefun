@@ -1,0 +1,51 @@
+[1mdiff --git a/src/loading-scene.ts b/src/loading-scene.ts[m
+[1mindex 705dbf1..60f9d1c 100644[m
+[1m--- a/src/loading-scene.ts[m
+[1m+++ b/src/loading-scene.ts[m
+[36m@@ -471,32 +471,16 @@[m [mexport class LoadingScene extends SceneBase {[m
+       });[m
+     }[m
+ [m
+[31m-    const intro = this.add[m
+[31m-      .video(0, 0)[m
+[31m-      .setOrigin(0)[m
+[31m-      .setScale(3)[m
+[31m-      .once(Phaser.GameObjects.Events.VIDEO_COMPLETE, (video: Phaser.GameObjects.Video) => {[m
+[31m-        this.tweens.add({[m
+[31m-          targets: intro,[m
+[31m-          duration: 500,[m
+[31m-          alpha: 0,[m
+[31m-          ease: "Sine.easeIn",[m
+[31m-          onComplete: () => video.destroy(),[m
+[31m-        });[m
+[31m-        for (const g of loadingGraphics) {[m
+[31m-          g.setVisible(true);[m
+[31m-        }[m
+[31m-      });[m
+[32m+[m[32m    // The original intro movie is marked no-reuse by the upstream asset repository.[m
+[32m+[m[32m    // Reveal the standard loading UI instead of loading that movie.[m
+ [m
+     this.load[m
+       .once(this.LOAD_EVENTS.START, () => {[m
+[31m-        // videos do not need to be preloaded[m
+[31m-        intro.loadURL("images/intro_dark.mp4", true);[m
+[31m-        if (mobile) {[m
+[31m-          intro.video?.setAttribute("webkit-playsinline", "webkit-playsinline");[m
+[31m-          intro.video?.setAttribute("playsinline", "playsinline");[m
+[32m+[m[32m        if (!mobile) {[m
+[32m+[m[32m          for (const graphic of loadingGraphics) {[m
+[32m+[m[32m            graphic.setVisible(true);[m
+[32m+[m[32m          }[m
+         }[m
+[31m-        intro.play();[m
+       })[m
+       .on(this.LOAD_EVENTS.PROGRESS, (progress: number) => {[m
+         percentText.setText(`${Math.floor(progress * 100)}%`);[m
+[36m@@ -527,7 +511,6 @@[m [mexport class LoadingScene extends SceneBase {[m
+         for (const g of loadingGraphics) {[m
+           g.destroy();[m
+         }[m
+[31m-        intro.destroy();[m
+       });[m
+   }[m
+ [m
