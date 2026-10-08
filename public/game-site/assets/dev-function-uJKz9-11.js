@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DvfoX5Ak.js";async function customDevFunction(){}function init_dev_function(){return(init_dev_function=e((()=>{})))()}init_dev_function();export{customDevFunction};
